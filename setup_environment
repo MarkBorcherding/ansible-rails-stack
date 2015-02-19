@@ -1,0 +1,6 @@
+
+echo -n Checking Python dependencies....
+pip install --quiet PyYAML jinja2 httplib2
+echo Done
+
+source ansible/hacking/env-setup
