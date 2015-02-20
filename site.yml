@@ -3,7 +3,8 @@
   sudo: yes
   gather_facts: no
   roles:
-    - ruby
+    - role: rails
+      tags: rails
   tasks:
     - name: test connection
       shell: ping -c 1 10.11.0.101
