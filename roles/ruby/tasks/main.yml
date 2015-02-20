@@ -1,0 +1,30 @@
+---
+- apt: name={{ item }}
+       update_cache=yes
+       state=present
+  with_items:
+    - autoconf
+    - bison
+    - build-essential
+    - git
+    - libffi-dev
+    - libgdbm-dev
+    - libgdbm3
+    - libncurses5-dev
+    - libreadline6-dev
+    - libssl-dev
+    - libyaml-dev
+    - zlib1g-dev
+
+- name: clone ruby build
+  git: repo=https://github.com/sstephenson/ruby-build.git
+       dest=/usr/local/src/ruby-build
+
+- name: install ruby-build
+  shell: ./install.sh
+         chdir=/usr/local/src/ruby-build
+         creates=/usr/local/bin/ruby-build
+
+- name: install ruby {{ ruby_version }}
+  shell: ruby-build {{ ruby_version }}  /usr/local
+         creates=/usr/local/bin/ruby
