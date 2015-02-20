@@ -1,2 +1,7 @@
 ---
-- debug: msg='hi'
+
+- name: install runit
+  apt: name=runit
+       update_cache=yes
+
+- include: install_nginx.yml

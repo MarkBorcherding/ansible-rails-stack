@@ -1,0 +1,27 @@
+---
+- name: add the nginx apt repo
+  apt_repository: repo='ppa:nginx/stable'
+
+- apt: name=nginx
+  register: install_nginx
+
+- name: stop the nginx started when installed
+  service: name=nginx
+           state=stopped
+  when: install_nginx | changed
+
+- name: remove default nginx site
+  file: dest={{ item }}
+        state=absent
+  with_items:
+    - /etc/nginx/sites-enabled/default
+    - /etc/nginx/sites-available/default
+
+- name: create nginx runit service directories
+  file: dest=/etc/service/nginx/log/
+        state=directory
+
+- name: template the nginx runit service
+  copy: dest=/etc/service/
+        src=../files/etc/service/nginx
+        mode=744
