@@ -1,7 +1,7 @@
 [vagrant]
-rails-host1
-rails-host2
+web1
+web2
 
 [web-servers]
-rails-host1
-rails-host2
+web1
+web2
