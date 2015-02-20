@@ -2,6 +2,7 @@
 - apt: name={{ item }}
        update_cache=yes
        state=present
+  sudo: yes
   with_items:
     - autoconf
     - bison
@@ -19,12 +20,21 @@
 - name: clone ruby build
   git: repo=https://github.com/sstephenson/ruby-build.git
        dest=/usr/local/src/ruby-build
+  sudo: yes
 
 - name: install ruby-build
   shell: ./install.sh
          chdir=/usr/local/src/ruby-build
          creates=/usr/local/bin/ruby-build
+  sudo: yes
 
 - name: install ruby {{ ruby_version }}
   shell: ruby-build {{ ruby_version }}  /usr/local
          creates=/usr/local/bin/ruby
+  sudo: yes
+  register: install_ruby
+
+- name: update gem
+  shell: gem update --system
+  sudo: yes
+  when: install_ruby | changed
