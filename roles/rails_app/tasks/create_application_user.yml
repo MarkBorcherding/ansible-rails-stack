@@ -1,0 +1,25 @@
+---
+- user: name={{application_user}}
+        comment='Account for running rails application {{application_user}}'
+
+- file: path=/home/{{application_user}}/service
+        owner={{application_user}}
+        group={{application_user}}
+        state=directory
+
+- file: path=/etc/service/{{ runit_service_dir }}/log
+        state=directory
+        owner=root
+        group=root
+
+- template: src=runsvdir/run.j2
+            dest=/etc/service/{{ runit_service_dir }}/run
+            owner=root
+            group=root
+            mode=0744
+
+- template: src=runsvdir/log/run.j2
+            dest=/etc/service/{{ runit_service_dir }}/log/run
+            owner=root
+            group=root
+            mode=0744

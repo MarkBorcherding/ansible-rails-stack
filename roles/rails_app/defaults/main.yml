@@ -1,0 +1,4 @@
+---
+name: myapp
+application_user: "{{name}}"
+runit_service_dir: "{{application_user}}_runsvdir"

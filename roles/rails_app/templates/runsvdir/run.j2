@@ -1,0 +1,4 @@
+#!/bin/sh
+
+exec 2>&1
+exec chpst -u {{ application_user}} runsvdir -P /home/{{application_user}}/service "{{application_user}}_service:...................."

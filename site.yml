@@ -3,7 +3,9 @@
   sudo: yes
   gather_facts: no
   roles:
-    - rails
+    - rails_app
+    - role: rails_app
+      name: 'myotherapp'
   tasks:
     - name: test connection
       shell: ping -c 1 10.11.0.101
