@@ -16,12 +16,20 @@
   with_items:
     - /etc/nginx/sites-enabled/default
     - /etc/nginx/sites-available/default
+    - /etc/init.d/nginx
+  when: install_nginx | changed
 
-- name: create nginx runit service directories
-  file: dest=/etc/service/nginx/log/
-        state=directory
-
-- name: template the nginx runit service
+- name: copy the nginx runit service
   copy: dest=/etc/service/
         src=../files/etc/service/nginx
         mode=744
+
+- name: symlink runit over /etc/init.d/nginx
+  file: dest=/etc/init.d/nginx
+        src=/usr/bin/sv
+        state=link
+
+- copy: src=etc/nginx/conf.d/log-to-stdout.conf
+        dest=/etc/nginx/conf.d/
+  notify: reload nginx
+
