@@ -1,0 +1,17 @@
+---
+
+- name: template the nginx site conf
+  template: src=nginx/site.j2
+            dest=/etc/nginx/sites-available/{{name}}
+            owner=root
+            group=root
+            mode=644
+  notify: reload nginx
+
+- name: enable the nginx site
+  file: src=/etc/nginx/sites-available/{{name}}
+        path=/etc/nginx/sites-enabled/{{name}}
+        state=link
+  notify: reload nginx
+
+

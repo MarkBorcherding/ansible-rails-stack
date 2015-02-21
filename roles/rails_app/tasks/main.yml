@@ -1,4 +1,5 @@
 ---
 
 - include: create_application_user.yml
+- include: create_nginx_site.yml
   tags: wip
