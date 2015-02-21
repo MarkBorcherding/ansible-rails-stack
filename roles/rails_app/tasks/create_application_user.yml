@@ -1,24 +1,29 @@
 ---
-- user: name={{application_user}}
-        comment='Account for running rails application {{application_user}}'
+- name: create application's user account
+  user: name={{application_user}}
+        comment={{ "\"Account for running rails application " + application_user + ".\"" }}
 
-- file: path=/home/{{application_user}}/service
+- name: create user account personal runit service directory
+  file: path=/home/{{application_user}}/service
         owner={{application_user}}
         group={{application_user}}
         state=directory
 
-- file: path=/etc/service/{{ runit_service_dir }}/log
+- name: create runit service directory to monitor the personal service directory
+  file: path=/etc/service/{{ runit_service_dir }}/log
         state=directory
         owner=root
         group=root
 
-- template: src=runsvdir/run.j2
+- name: create the runit service
+  template: src=runsvdir/run.j2
             dest=/etc/service/{{ runit_service_dir }}/run
             owner=root
             group=root
             mode=0744
 
-- template: src=runsvdir/log/run.j2
+- name: create the logging service
+  template: src=runsvdir/log/run.j2
             dest=/etc/service/{{ runit_service_dir }}/log/run
             owner=root
             group=root
